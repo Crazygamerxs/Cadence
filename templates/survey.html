@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Survey</title>
+</head>
+<body>
+    <h1>Onboarding Survey</h1>
+    <form method="POST" action="/survey">
+        <label for="name">What is your name?</label>
+        <input type="text" name="name" required><br>
+
+        <label for="age">How old are you?</label>
+        <input type="number" name="age" required><br>
+
+        <label for="living_situation">Are you living by yourself or with other people?</label>
+        <input type="text" name="living_situation" required><br>
+
+        <label for="annual_income">What is your annual income?</label>
+        <input type="number" name="annual_income" required><br>
+
+        <label for="yearly_expenses">How much does rent/expenses cost yearly?</label>
+        <input type="number" name="yearly_expenses" required><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
