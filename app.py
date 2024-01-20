@@ -12,6 +12,10 @@ app = Flask(__name__, template_folder=template_folder, static_folder=static_fold
 def hello():
     return render_template("index.html")
 
+@app.route('/test.html')
+def test_page():
+    return render_template("test.html")
+
 if __name__ == '__main__':
     app.run(port="8000",debug=True)
 

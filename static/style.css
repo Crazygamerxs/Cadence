@@ -62,14 +62,46 @@ body.show-chatbot .chatbot-toggler span:last-child {
   transition: all 0.1s ease;
 }
 
+/* .start {
+    border: none;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    font: bold;
+    display: inline-block;
+    margin: 2px 2px;
+    font-size: 16px;
+    color: white;
+    border-radius: 2px;
+    background-color: #0288b5;
+    position: relative;
+    top: 15px;
+} */
+
 .start {
-    background-color: red;
+    border: none;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    font-size: 16px;
+    color: #ffffff;
+    border-radius: 25px; /* Increase the border-radius for a rounded appearance */
+    background: linear-gradient(90deg, #00bcd4 0%, #3a7bd5 51%, #00bcd4 100%); /* Use a linear gradient for the background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    position: relative;
+    top: 18px;
 }
 
+p {
+    color: #363535;
+}
 .randprmpt {
     position: relative;
     left: -07px;
-    top: 2px;
+    top: 9px;
+    color: #363535;
 }
 
 #comskil {
@@ -84,6 +116,7 @@ body.show-chatbot .chatbot-toggler span:last-child {
     height: 158px;
     position: relative;
     left: 60px;
+    top: 20px;
     background-color: #e1e1da;
     border-radius: 10px;
     /* border: 2px solid #2980b9; */
