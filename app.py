@@ -8,7 +8,6 @@ from speech_text import speech_to_text
 app = Flask(__name__)
 
 
-
 # Configuration for SQLAlchemy and Database
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///todo.sqlite"
 db = SQLAlchemy(app)
@@ -53,7 +52,7 @@ def home():
         db.session.commit()
 
     all_items = Todo.query.all()
-    return render_template("Task_base.html", all_todos=all_items)
+    return render_template("Tasks.html", all_todos=all_items)
 
 # Update route
 @app.route("/update/<int:sno>", methods=["GET", "POST"])
@@ -70,7 +69,7 @@ def update_item(sno):
         return redirect("/")
 
     item = Todo.query.get_or_404(sno)
-    return render_template("Task_update.html", todo=item)
+    return render_template("Tasks_update.html", todo=item)
 
 # Delete route
 @app.route('/delete/<int:sno>')
