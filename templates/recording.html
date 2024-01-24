@@ -1,0 +1,54 @@
+<!-- recording.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text</title>
+</head>
+<body>
+    <h1>Speech to Text</h1>
+
+    <button onclick="startRecording()">Start Recording</button>
+
+    <h2>Transcriptions</h2>
+    <div id="transcript-list"></div>
+</body>
+</html>
+
+
+    {% if transcriptions %}
+        <ul>
+            {% for transcription in transcriptions %}
+                <li>{{ transcription }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No transcriptions available.</p>
+    {% endif %}
+</body>
+<script>
+    function startRecording() {
+        // Make an AJAX request to start the recording
+        fetch('/start_recording', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                // Display the transcript file link on the page
+                displayTranscriptLink(data.transcript_file);
+            })
+            .catch(error => {
+                console.error('Error starting recording:', error);
+            });
+    }
+
+    function displayTranscriptLink(transcriptFile) {
+        var transcriptList = document.getElementById('transcript-list');
+        transcriptList.innerHTML = ''; // Clear existing transcriptions
+
+        var link = document.createElement('a');
+        link.href = transcriptFile;
+        link.textContent = 'Download Transcript';
+        transcriptList.appendChild(link);
+    }
+</script>
+</html>

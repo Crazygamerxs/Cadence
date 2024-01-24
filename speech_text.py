@@ -1,9 +1,8 @@
 import pyaudio
 import wave
 from google.cloud import speech
-import datetime  # Import the datetime module
+import datetime
 
-# Record audio and save it
 def record_and_save():
     audio = pyaudio.PyAudio()
 
@@ -17,25 +16,24 @@ def record_and_save():
             frames.append(data)
     except KeyboardInterrupt:
         pass
+    finally:
+        stream.stop_stream()
+        stream.close()
+        audio.terminate()
 
-    stream.stop_stream()
-    stream.close()
-    audio.terminate()
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_name = f"Recording_{timestamp}.wav"
 
-    # Generate a unique filename with a timestamp
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_name = "Recording_{}.wav".format(timestamp)
+        sound_file = wave.open(file_name, "wb")
+        sound_file.setnchannels(1)
+        sound_file.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
+        sound_file.setframerate(44100)
+        sound_file.writeframes(b"".join(frames))
+        sound_file.close()
 
-    sound_file = wave.open(file_name, "wb")
-    sound_file.setnchannels(1)
-    sound_file.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
-    sound_file.setframerate(44100)
-    sound_file.writeframes(b"".join(frames))
-    sound_file.close()
+        return file_name
 
-    return file_name  # Return the generated filename
 
-# Convert audio to text
 def speech_to_text(file_name):
     client = speech.SpeechClient.from_service_account_file('key.json')
 
@@ -55,13 +53,29 @@ def speech_to_text(file_name):
         audio=audio_file
     )
 
-    for result in response.results:
-        print("Transcript: {}".format(result.alternatives[0].transcript))
+    transcriptions = [result.alternatives[0].transcript for result in response.results]
+    return transcriptions
 
-# Main function
+def save_transcript_to_file(file_name, transcriptions):
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    transcript_file_name = f"Transcript_{timestamp}.txt"
+
+    with open(transcript_file_name, "w") as file:
+        for transcription in transcriptions:
+            file.write(transcription + "\n")
+
+    return transcript_file_name
+
 def main():
     file_name = record_and_save()
-    speech_to_text(file_name)
+    transcriptions = speech_to_text(file_name)
+
+    # Print transcriptions to the console
+    print("Transcriptions:")
+    for idx, transcription in enumerate(transcriptions, start=1):
+        print(f"{idx}. {transcription}")
+
+    transcript_file_name = save_transcript_to_file(file_name, transcriptions)
 
 if __name__ == "__main__":
     main()
